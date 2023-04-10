@@ -17,16 +17,24 @@ const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
 emailInput.value = savedState.email || '';
 messageInput.value = savedState.message || '';
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
+const submitForm = () => {
   const state = {
     email: emailInput.value,
     message: messageInput.value,
   };
-  console.log(state); 
+  console.log(state);
   localStorage.removeItem(STORAGE_KEY);
   emailInput.value = '';
   messageInput.value = '';
+};
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (emailInput.value.trim() && messageInput.value.trim()) {
+    submitForm();
+  } else {
+    alert('Будь ласка, заповніть обидва поля перед відправкою.');
+  }
 });
 
 emailInput.addEventListener('input', saveStateToLocalStorage);
